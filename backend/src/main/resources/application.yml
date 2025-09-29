@@ -1,0 +1,48 @@
+spring:
+  application:
+    name: livraime
+  profiles:
+    active: local
+
+---
+spring:
+  config:
+    activate:
+      on-profile: local
+  datasource:
+    url: jdbc:postgresql://localhost:${POSTGRES_PORT:5432}/${POSTGRES_DB:livraime}
+    username: ${POSTGRES_USER:livraime}
+    password: ${POSTGRES_PASSWORD:livraime}
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    open-in-view: false
+    properties:
+      hibernate.format_sql: true
+  flyway:
+    enabled: true
+  data:
+    redis:
+      host: localhost
+      port: ${REDIS_PORT:6379}
+
+minio:
+  endpoint: http://localhost:${MINIO_PORT:9000}
+  accessKey: ${MINIO_ROOT_USER:admin}
+  secretKey: ${MINIO_ROOT_PASSWORD:adminadmin}
+  bucket: ${MINIO_BUCKET:livraime}
+
+server:
+  port: 8080
+
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics
